@@ -10,7 +10,7 @@ function processValDec (id) {
     if(inputValue > 0 && inputValue <= 5) {
         val = parseFloat(inputValue) - 1;
     } else {
-        val = 1;    
+        val = 0;    
     }
     return val;
 }
@@ -35,15 +35,29 @@ function processAmount (quantities,price){
        return totallAmount;
 }
 
+function subTotal (id1,id2) {
+
+    let itemAmount = document.getElementById(id1).innerText;
+    let casePrice = document.getElementById(id2).innerText;
+
+   let  subtotal = parseInt(itemAmount) + parseInt(casePrice);
+   return subtotal;
+}
+function calculateVat (temp) {
+    let vat = (temp /100) * 14;
+    return Math.round(vat)
+}
+
+function finalAmount (temp,callback) {
+    let totalls = temp + callback;
+    return totalls
+}
+
 
 let minusValue = document.querySelector('#minusValue');
 let plusValue = document.querySelector('#plusValue');
 let price = document.getElementById('itemAmount').innerText;
 
-
-
-let totalBill = 0;
-let billTwo = 0;
 
 
 
@@ -54,8 +68,13 @@ minusValue.addEventListener('click',() => {
 
     let totallAmount = processAmount(returnVal,price);
     document.getElementById('itemAmount').innerText = totallAmount;
+   
+   let temp = subTotal('itemAmount','casePrice');
+    document.getElementById('subtotal').innerText = temp;
+    document.getElementById('vat').innerText = calculateVat(temp);
+    document.getElementById('finalAmount').innerText = finalAmount(temp,calculateVat(temp));
 
-    totalBill = totallAmount;
+
     
 });
 
@@ -67,7 +86,13 @@ plusValue.addEventListener('click', () => {
 
   let totallAmount = processAmount(returnVal,price);
   document.getElementById('itemAmount').innerText = totallAmount;
-  totalBill = totallAmount;
+
+  let temp = subTotal('itemAmount','casePrice');
+  document.getElementById('subtotal').innerText = temp;
+  document.getElementById('vat').innerText = calculateVat(temp);
+  document.getElementById('finalAmount').innerText = finalAmount(temp,calculateVat(temp));
+
+
  
 });
 
@@ -82,7 +107,12 @@ caseMinus.addEventListener('click',() => {
 
     let totallAmount = processAmount(returnVal,casePrice);
     document.getElementById('casePrice').innerText = totallAmount;
-    billTwo = totallAmount;
+    
+    let temp = subTotal('itemAmount','casePrice');
+    document.getElementById('subtotal').innerText = temp;
+    document.getElementById('vat').innerText = calculateVat(temp);
+    document.getElementById('finalAmount').innerText = finalAmount(temp,calculateVat(temp));
+
 
 });
 
@@ -93,17 +123,12 @@ casePlus.addEventListener('click',() => {
 
     let totallAmount = processAmount(returnVal,casePrice);
     document.getElementById('casePrice').innerText = totallAmount;
-    billTwo = totallAmount;
-
+   
+    let temp = subTotal('itemAmount','casePrice');
+    document.getElementById('subtotal').innerText = temp;
+    document.getElementById('vat').innerText = calculateVat(temp);
+    document.getElementById('finalAmount').innerText = finalAmount(temp,calculateVat(temp));
 });
 
-document.getElementById('checkOut').addEventListener('click',() => {
 
-    let totbil = billTwo + totalBill
-    let vat  = (totbil/100)*14;
-    let finalAmount =totbil+vat
-     document.getElementById('initialAmount').innerText = totbil;
-     document.getElementById('vat').innerText = Math.round(vat);
-     document.getElementById('finalAmount').innerText = Math.round(finalAmount);
-
-})
+    
